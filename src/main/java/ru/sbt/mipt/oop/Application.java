@@ -1,11 +1,9 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.light.Light;
 import ru.sbt.mipt.oop.light.LightEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.reader.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.reader.SmartHomeReader;
-import ru.sbt.mipt.oop.room.Room;
 import ru.sbt.mipt.oop.room.DoorEventHandler;
 
 import java.io.IOException;

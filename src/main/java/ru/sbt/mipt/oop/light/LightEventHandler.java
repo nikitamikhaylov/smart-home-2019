@@ -2,9 +2,8 @@ package ru.sbt.mipt.oop.light;
 
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.notifications.Notifier;
-import ru.sbt.mipt.oop.room.Room;
+import ru.sbt.mipt.oop.Room;
 
-import static ru.sbt.mipt.oop.SensorEventType.DOOR_OPEN;
 import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
 
 public class LightEventHandler {

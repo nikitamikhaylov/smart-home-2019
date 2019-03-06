@@ -1,8 +1,8 @@
 package ru.sbt.mipt.oop.notifications;
 
-import ru.sbt.mipt.oop.Door;
+import ru.sbt.mipt.oop.room.Door;
 import ru.sbt.mipt.oop.light.Light;
-import ru.sbt.mipt.oop.room.Room;
+import ru.sbt.mipt.oop.Room;
 
 public interface Notifier {
     public void RoomDoorOpened(Room room, Door door);
