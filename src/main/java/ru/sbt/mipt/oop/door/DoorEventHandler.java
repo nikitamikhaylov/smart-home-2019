@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.room;
+package ru.sbt.mipt.oop.door;
 
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.light.Light;

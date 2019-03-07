@@ -4,13 +4,11 @@ import ru.sbt.mipt.oop.light.LightEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.reader.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.reader.SmartHomeReader;
-import ru.sbt.mipt.oop.room.DoorEventHandler;
+import ru.sbt.mipt.oop.door.DoorEventHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import static ru.sbt.mipt.oop.SensorEventType.*;
 
 public class Application {
     private static Collection<Handler> handlers = new ArrayList<Handler>();
