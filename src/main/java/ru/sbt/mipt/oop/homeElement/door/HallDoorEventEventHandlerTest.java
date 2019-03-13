@@ -31,20 +31,23 @@ class HallDoorEventEventHandlerTest {
         HallDoorEventEventHandler handler = new HallDoorEventEventHandler(new ConsoleCommandSender());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.DOOR_CLOSED, "4"));
 
-        for (Room room : smartHome.getRooms()) {
-            for (Door door : room.getDoors()) {
+        smartHome.execute(c -> {
+            if (c instanceof Door) {
+                Door door = (Door) c;
                 if (door.getId().equals("4")) {
                     assertFalse(door.isOpen());
                 }
             }
-        }
+        });
 
-        for (Room room : smartHome.getRooms()) {
-            for (Light light : room.getLights()) {
+        smartHome.execute(c -> {
+            if (c instanceof Light) {
+                Light light = (Light) c;
                 if (light.getId().equals("7") || light.getId().equals("8") || light.getId().equals("9")) {
                     assertFalse(light.isOn());
                 }
             }
-        }
+        });
+
     }
 }

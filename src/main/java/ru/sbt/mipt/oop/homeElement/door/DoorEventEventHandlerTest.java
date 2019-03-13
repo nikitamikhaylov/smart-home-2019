@@ -23,13 +23,14 @@ class DoorEventEventHandlerTest {
         DoorEventEventHandler handler = new DoorEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.DOOR_CLOSED, "1"));
 
-        for (Room room : smartHome.getRooms()) {
-            for (Door door : room.getDoors()) {
+        smartHome.execute(c -> {
+            if (c instanceof Door) {
+                Door door = (Door) c;
                 if (door.getId().equals("1")) {
-                    assertTrue(door.isOpen());
+                    assertFalse(door.isOpen());
                 }
             }
-        }
+        });
     }
 
     @Test
@@ -39,12 +40,13 @@ class DoorEventEventHandlerTest {
         DoorEventEventHandler handler = new DoorEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.DOOR_OPEN, "2"));
 
-        for (Room room : smartHome.getRooms()) {
-            for (Door door : room.getDoors()) {
+        smartHome.execute(c -> {
+            if (c instanceof Door) {
+                Door door = (Door) c;
                 if (door.getId().equals("2")) {
-                    assertFalse(door.isOpen());
+                    assertTrue(door.isOpen());
                 }
             }
-        }
+        });
     }
 }

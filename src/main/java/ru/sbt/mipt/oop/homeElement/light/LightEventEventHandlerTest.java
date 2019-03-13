@@ -24,13 +24,14 @@ class LightEventEventHandlerTest {
         LightEventEventHandler handler = new LightEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.LIGHT_ON, "7"));
 
-        for (Room room : smartHome.getRooms()) {
-            for (Light light : room.getLights()) {
+        smartHome.execute(c -> {
+            if (c instanceof Light) {
+                Light light = (Light) c;
                 if (light.getId().equals("7")) {
                     assertTrue(light.isOn());
                 }
             }
-        }
+        });
     }
 
     @Test
@@ -40,12 +41,14 @@ class LightEventEventHandlerTest {
         LightEventEventHandler handler = new LightEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.LIGHT_OFF, "2"));
 
-        for (Room room : smartHome.getRooms()) {
-            for (Light light : room.getLights()) {
+        smartHome.execute(c -> {
+            if (c instanceof Light) {
+                Light light = (Light) c;
                 if (light.getId().equals("2")) {
                     assertFalse(light.isOn());
                 }
             }
-        }
+        });
+
     }
 }
