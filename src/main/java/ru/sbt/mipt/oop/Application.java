@@ -2,15 +2,16 @@ package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.command.ConsoleCommandSender;
 import ru.sbt.mipt.oop.door.HallDoorEventEventHandler;
+import ru.sbt.mipt.oop.door.DoorEventEventHandler;
 import ru.sbt.mipt.oop.event.EventGenerator;
 import ru.sbt.mipt.oop.event.RandomEventGenerator;
 import ru.sbt.mipt.oop.light.LightEventEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.reader.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.reader.SmartHomeReader;
-import ru.sbt.mipt.oop.door.DoorEventEventHandler;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
