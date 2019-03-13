@@ -1,13 +1,15 @@
-package ru.sbt.mipt.oop.light;
+package ru.sbt.mipt.oop.homeElement.light;
 
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.notifications.Notifier;
-import ru.sbt.mipt.oop.Room;
+import ru.sbt.mipt.oop.homeElement.Room;
+import ru.sbt.mipt.oop.sensor.SensorEvent;
+import ru.sbt.mipt.oop.sensor.SensorEventType;
 
 import java.util.ArrayList;
 
-import static ru.sbt.mipt.oop.SensorEventType.LIGHT_OFF;
-import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
+import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_OFF;
+import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_ON;
 
 public class LightEventEventHandler implements EventHandler {
     private final Notifier notifier;
@@ -34,25 +36,26 @@ public class LightEventEventHandler implements EventHandler {
         if (!checkEventType(event)) {
             return;
         }
-        // событие от источника света
-        for (Room room : smartHome.getRooms()) {
-            for (Light light : room.getLights()) {
+
+        smartHome.execute(object -> {
+            if (object instanceof Light) {
+                Light light = (Light) object;
                 if (light.getId().equals(event.getObjectId())) {
                     SensorEventType eventType = event.getType();
                     switch (eventType) {
                         case LIGHT_ON : {
                             light.setOn(true);
-                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " in door " + room.getName() + " was turned on.");
+                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " was turned on.");
                             break;
                         }
                         case LIGHT_OFF : {
                             light.setOn(false);
-                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " in door " + room.getName() + " was turned off.");
+                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " was turned off.");
                             break;
                         }
                     }
                 }
             }
-        }
+        });
     }
 }
