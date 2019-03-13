@@ -1,7 +1,6 @@
 package ru.sbt.mipt.oop.door;
 
 import ru.sbt.mipt.oop.*;
-import ru.sbt.mipt.oop.light.Light;
 import ru.sbt.mipt.oop.notifications.Notifier;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import static ru.sbt.mipt.oop.SensorEventType.DOOR_CLOSED;
 import static ru.sbt.mipt.oop.SensorEventType.DOOR_OPEN;
 
-public class DoorEventHandler implements Handler{
+public class DoorEventEventHandler implements EventHandler {
 
     private final Notifier notifier;
     private final ArrayList<SensorEventType> eventsTypes = new ArrayList<>(); //must be private
@@ -25,7 +24,7 @@ public class DoorEventHandler implements Handler{
         return eventsTypes.contains(event.getType());
     }
 
-    public DoorEventHandler(Notifier notifier) {
+    public DoorEventEventHandler(Notifier notifier) {
         fillEventList();
         this.notifier = notifier;
     }
@@ -43,17 +42,12 @@ public class DoorEventHandler implements Handler{
                     switch (eventType) {
                         case DOOR_OPEN : {
                             door.setOpen(true);
-                            notifier.RoomDoorOpened(room, door);
+                            notifier.notifyAbout("[NOTIFICATION] Door " + door.getId() + " in door " + room.getName() + " was opened.");
                             break;
                         }
                         case DOOR_CLOSED : {
                             door.setOpen(false);
-                            notifier.RoomDoorClosed(room, door);
-                            // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
-                            // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
-                            if (room.getName().equals("hall")) {
-                                processHallDoorEvent(smartHome);
-                            }
+                            notifier.notifyAbout("[NOTIFICATION] Door " + door.getId() + " in door " + room.getName() + " was closed.");
                             break;
                         }
                     }
@@ -61,16 +55,5 @@ public class DoorEventHandler implements Handler{
             }
         }
     }
-
-    private void processHallDoorEvent(SmartHome smartHome) {
-        for (Room homeRoom : smartHome.getRooms()) {
-            for (Light light : homeRoom.getLights()) {
-                light.setOn(false);
-                SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-                CommandSender.sendCommand(command);
-            }
-        }
-    }
-
 
 }

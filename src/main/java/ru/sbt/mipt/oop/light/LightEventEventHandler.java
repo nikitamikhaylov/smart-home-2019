@@ -4,13 +4,12 @@ import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.notifications.Notifier;
 import ru.sbt.mipt.oop.Room;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static ru.sbt.mipt.oop.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
 
-public class LightEventHandler implements Handler{
+public class LightEventEventHandler implements EventHandler {
     private final Notifier notifier;
     private final ArrayList<SensorEventType> eventsTypes = new ArrayList<>();
 
@@ -25,7 +24,7 @@ public class LightEventHandler implements Handler{
         return eventsTypes.contains(event.getType());
     }
 
-    public LightEventHandler(Notifier notifier) {
+    public LightEventEventHandler(Notifier notifier) {
         this.notifier = notifier;
         fillEventList();
     }
@@ -43,12 +42,12 @@ public class LightEventHandler implements Handler{
                     switch (eventType) {
                         case LIGHT_ON : {
                             light.setOn(true);
-                            notifier.RoomLightOn(room, light);
+                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " in door " + room.getName() + " was turned on.");
                             break;
                         }
                         case LIGHT_OFF : {
                             light.setOn(false);
-                            notifier.RoomLightOff(room, light);
+                            notifier.notifyAbout("[NOTIFICATION] Light " + light.getId() + " in door " + room.getName() + " was turned off.");
                             break;
                         }
                     }
