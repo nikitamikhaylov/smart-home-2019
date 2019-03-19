@@ -24,6 +24,10 @@ public class Door implements HomeElement {
         return isOpen;
     }
 
+    public boolean isClosed() {
+        return !isOpen;
+    }
+
     @Override
     public void execute(Action action) {
         action.execute(this);

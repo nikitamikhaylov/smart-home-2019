@@ -17,10 +17,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LightEventEventHandlerTest {
+    private SmartHome readSmartHomeFromJSON() throws IOException {
+        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
+        return smartHomeReader.readSmartHomeState();
+    }
+
     @Test
     public void testLightOnProcessEvent() throws IOException {
-        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
-        SmartHome smartHome = smartHomeReader.readSmartHomeState();
+        SmartHome smartHome = readSmartHomeFromJSON();
+
         LightEventEventHandler handler = new LightEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.LIGHT_ON, "7"));
 
@@ -36,8 +41,8 @@ class LightEventEventHandlerTest {
 
     @Test
     public void testLightOffProcessEvent() throws IOException {
-        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
-        SmartHome smartHome = smartHomeReader.readSmartHomeState();
+        SmartHome smartHome = readSmartHomeFromJSON();
+
         LightEventEventHandler handler = new LightEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.LIGHT_OFF, "2"));
 

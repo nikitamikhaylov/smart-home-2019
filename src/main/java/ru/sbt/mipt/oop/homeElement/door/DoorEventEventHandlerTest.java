@@ -16,10 +16,16 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoorEventEventHandlerTest {
-    @Test
-    public void testDoorOpenProcessEvent() throws IOException {
+
+    private SmartHome readSmartHomeFromJSON() throws IOException {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
-        SmartHome smartHome = smartHomeReader.readSmartHomeState();
+        return smartHomeReader.readSmartHomeState();
+    }
+
+    @Test
+    public void testDoorClosedProcessEvent() throws IOException {
+        SmartHome smartHome = readSmartHomeFromJSON();
+
         DoorEventEventHandler handler = new DoorEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.DOOR_CLOSED, "1"));
 
@@ -27,16 +33,16 @@ class DoorEventEventHandlerTest {
             if (c instanceof Door) {
                 Door door = (Door) c;
                 if (door.getId().equals("1")) {
-                    assertFalse(door.isOpen());
+                    assertTrue(door.isClosed());
                 }
             }
         });
     }
 
     @Test
-    public void testDoorClosedProcessEvent() throws IOException {
-        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
-        SmartHome smartHome = smartHomeReader.readSmartHomeState();
+    public void testDoorOpenedProcessEvent() throws IOException {
+        SmartHome smartHome = readSmartHomeFromJSON();
+
         DoorEventEventHandler handler = new DoorEventEventHandler(new ConsoleNotifier());
         handler.processEvent(smartHome, new SensorEvent(SensorEventType.DOOR_OPEN, "2"));
 

@@ -38,21 +38,24 @@ public class HallDoorEventEventHandler implements EventHandler {
             if (object instanceof Room) {
                 Room room = (Room) object;
                 if (room.getName().equals("hall")) {
-                    boolean hasClosedDoor = false;
-                    //хз вообще насколько это нормально
+                    boolean hasHallDoor = false;
                     for (Door door: room.getDoors()) {
                         if (door.getId().equals(event.getObjectId())) {
-                            hasClosedDoor = true;
+                            hasHallDoor = true;
                         }
                     }
-                    if (!hasClosedDoor) {
+                    if (!hasHallDoor) {
                         return;
                     }
-                    for (Light light: room.getLights()) {
-                        light.setOn(false);
-                        SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-                        commandSender.sendCommand(command);
+
+                    for (Room roomIter: smartHome.getRooms()) {
+                        for (Light light: roomIter.getLights()) {
+                            light.setOn(false);
+                            SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
+                            commandSender.sendCommand(command);
+                        }
                     }
+
                 }
             }
         });

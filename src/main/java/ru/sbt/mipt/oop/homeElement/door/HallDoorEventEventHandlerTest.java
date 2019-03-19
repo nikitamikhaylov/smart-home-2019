@@ -18,10 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HallDoorEventEventHandlerTest {
 
+    private SmartHome readSmartHomeFromJSON() throws IOException {
+        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
+        return smartHomeReader.readSmartHomeState();
+    }
+
     @Test
     public void testHallDoorClosedProcessEvent() throws IOException {
-        SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
-        SmartHome smartHome = smartHomeReader.readSmartHomeState();
+        SmartHome smartHome = readSmartHomeFromJSON();
 
         LightEventEventHandler lightHandler = new LightEventEventHandler(new ConsoleNotifier());
         lightHandler.processEvent(smartHome, new SensorEvent(SensorEventType.LIGHT_ON, "7"));
