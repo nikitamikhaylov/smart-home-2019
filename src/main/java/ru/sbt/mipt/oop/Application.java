@@ -1,5 +1,8 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.Alarm.AlarmEventHandler;
+import ru.sbt.mipt.oop.Alarm.SecurityHandlerDecorator;
+import ru.sbt.mipt.oop.Event.Event;
 import ru.sbt.mipt.oop.Event.EventHandler;
 import ru.sbt.mipt.oop.command.ConsoleCommandSender;
 import ru.sbt.mipt.oop.homeElement.door.HallDoorEventEventHandler;
@@ -27,9 +30,9 @@ public class Application {
     }
 
     private static void fillHandlersList(Collection<EventHandler> eventHandlers) {
-        eventHandlers.add(new DoorEventEventHandler(new ConsoleNotifier()));
-        eventHandlers.add(new LightEventEventHandler(new ConsoleNotifier()));
-        eventHandlers.add(new HallDoorEventEventHandler(new ConsoleCommandSender()));
+        eventHandlers.add(new SecurityHandlerDecorator(new DoorEventEventHandler(new ConsoleNotifier())));
+        eventHandlers.add(new SecurityHandlerDecorator(new LightEventEventHandler(new ConsoleNotifier())));
+        eventHandlers.add(new SecurityHandlerDecorator(new HallDoorEventEventHandler(new ConsoleCommandSender())));
     }
 
     public static SmartHome readSmartHomeState() throws IOException {
@@ -41,9 +44,9 @@ public class Application {
                                          EventGenerator eventGenerator,
                                          Collection<EventHandler> eventHandlers) {
         // начинаем цикл обработки событий
-        SensorEvent event = eventGenerator.getNextSensorEvent();
+        Event event = eventGenerator.getNextSensorEvent();
         while (event != null) {
-            System.out.println("[INFO] Got EventGenerator: " + event);
+            System.out.println("[INFO] Got Event: " + event);
             for (EventHandler eventHandler : eventHandlers) {
                 eventHandler.processEvent(smartHome, event);
             }

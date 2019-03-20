@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop;
 
 
+import ru.sbt.mipt.oop.Alarm.Alarm;
 import ru.sbt.mipt.oop.homeElement.HomeElement;
 import ru.sbt.mipt.oop.homeElement.Room;
 import ru.sbt.mipt.oop.homeElement.door.Door;
@@ -10,6 +11,7 @@ import java.util.Collection;
 
 public class SmartHome implements HomeElement {
     private final Collection<Room> rooms;
+    private final Alarm alarm = new Alarm("1488", "1488");
 
     public SmartHome() {
         rooms = new ArrayList<>();
@@ -30,5 +32,9 @@ public class SmartHome implements HomeElement {
     public void execute(Action action) {
         action.execute(this);
         rooms.forEach(c -> c.execute(action));
+    }
+
+    public Alarm getAlarm() {
+        return alarm;
     }
 }

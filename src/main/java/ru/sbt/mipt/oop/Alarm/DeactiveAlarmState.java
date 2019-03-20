@@ -1,27 +1,35 @@
 package ru.sbt.mipt.oop.Alarm;
 
+import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
+import ru.sbt.mipt.oop.notifications.Notifier;
+
 public class DeactiveAlarmState extends AlarmState {
 
     public DeactiveAlarmState(Alarm alarm) {
-        super(alarm);
+        super(alarm, new ConsoleNotifier());
+    }
+
+    public DeactiveAlarmState(Alarm alarm, Notifier notifier) {
+        super(alarm, notifier);
     }
 
     @Override
     public void activate(String code) {
-        if (alarm.getActivationCode()== code.hashCode()) {
+        if (alarm.getActivationHashCode()== code.hashCode()) {
             alarm.changeState(new ActiveAlarmState(alarm));
+            notifier.notifyAbout("[INFO] Alarm activated successfully");
         } else {
-            System.out.println("Wrong activation code");
+            notifier.notifyAbout("[ERROR] Wrong activation code");
         }
     }
 
     @Override
     public void deactivate(String code) {
-        System.out.println("[WARNING] Duplicate deactivation");
+        notifier.notifyAbout("[WARNING] Duplicate deactivation");
     }
 
     @Override
     public void swithToChaosMode() {
-        alarm.changeState(new ChaosAlarmState(alarm));
+        notifier.notifyAbout("[WARNING] You must activate your alarm before switching to chaos mode");
     }
 }
