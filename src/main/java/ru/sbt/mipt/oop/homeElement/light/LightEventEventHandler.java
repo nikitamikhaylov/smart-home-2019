@@ -1,19 +1,22 @@
 package ru.sbt.mipt.oop.homeElement.light;
 
 import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.Event.Event;
+import ru.sbt.mipt.oop.Event.EventHandler;
 import ru.sbt.mipt.oop.notifications.Notifier;
-import ru.sbt.mipt.oop.homeElement.Room;
 import ru.sbt.mipt.oop.sensor.SensorEvent;
 import ru.sbt.mipt.oop.sensor.SensorEventType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_ON;
 
 public class LightEventEventHandler implements EventHandler {
+
     private final Notifier notifier;
-    private final ArrayList<SensorEventType> eventsTypes = new ArrayList<>();
+    private final List<SensorEventType> eventsTypes = new ArrayList<>();
 
     @Override
     public void fillEventList() {
@@ -22,8 +25,12 @@ public class LightEventEventHandler implements EventHandler {
     }
 
     @Override
-    public boolean checkEventType(SensorEvent event) {
-        return eventsTypes.contains(event.getType());
+    public boolean isNotThisEventType(Event anyEvent) {
+        if (!(anyEvent instanceof SensorEvent)) {
+            return true;
+        }
+        SensorEvent event = (SensorEvent) anyEvent;
+        return !eventsTypes.contains(event.getType());
     }
 
     public LightEventEventHandler(Notifier notifier) {
@@ -32,10 +39,11 @@ public class LightEventEventHandler implements EventHandler {
     }
 
     @Override
-    public void processEvent(SmartHome smartHome, SensorEvent event) {
-        if (!checkEventType(event)) {
+    public void processEvent(SmartHome smartHome, Event anyEvent) {
+        if (isNotThisEventType(anyEvent)) {
             return;
         }
+        SensorEvent event = (SensorEvent) anyEvent;
 
         smartHome.execute(object -> {
             if (object instanceof Light) {

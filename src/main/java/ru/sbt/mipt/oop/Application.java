@@ -1,10 +1,11 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.Event.EventHandler;
 import ru.sbt.mipt.oop.command.ConsoleCommandSender;
 import ru.sbt.mipt.oop.homeElement.door.HallDoorEventEventHandler;
 import ru.sbt.mipt.oop.homeElement.door.DoorEventEventHandler;
-import ru.sbt.mipt.oop.event.EventGenerator;
-import ru.sbt.mipt.oop.event.RandomEventGenerator;
+import ru.sbt.mipt.oop.EventGenerator.EventGenerator;
+import ru.sbt.mipt.oop.EventGenerator.RandomEventGenerator;
 import ru.sbt.mipt.oop.homeElement.light.LightEventEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.reader.JsonSmartHomeReader;
@@ -42,7 +43,7 @@ public class Application {
         // начинаем цикл обработки событий
         SensorEvent event = eventGenerator.getNextSensorEvent();
         while (event != null) {
-            System.out.println("[INFO] Got event: " + event);
+            System.out.println("[INFO] Got EventGenerator: " + event);
             for (EventHandler eventHandler : eventHandlers) {
                 eventHandler.processEvent(smartHome, event);
             }

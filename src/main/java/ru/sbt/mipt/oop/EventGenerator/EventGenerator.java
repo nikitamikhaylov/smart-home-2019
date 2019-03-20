@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.event;
+package ru.sbt.mipt.oop.EventGenerator;
 
 import ru.sbt.mipt.oop.sensor.SensorEvent;
 
