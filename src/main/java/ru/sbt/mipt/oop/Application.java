@@ -1,19 +1,18 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.Alarm.AlarmEventHandler;
-import ru.sbt.mipt.oop.Alarm.SecurityHandlerDecorator;
-import ru.sbt.mipt.oop.Event.Event;
-import ru.sbt.mipt.oop.Event.EventHandler;
+import ru.sbt.mipt.oop.alarm.AlarmEventHandler;
+import ru.sbt.mipt.oop.alarm.SecurityHandlerDecorator;
+import ru.sbt.mipt.oop.event.Event;
+import ru.sbt.mipt.oop.event.EventHandler;
 import ru.sbt.mipt.oop.command.ConsoleCommandSender;
-import ru.sbt.mipt.oop.homeElement.door.HallDoorEventEventHandler;
-import ru.sbt.mipt.oop.homeElement.door.DoorEventEventHandler;
-import ru.sbt.mipt.oop.EventGenerator.EventGenerator;
-import ru.sbt.mipt.oop.EventGenerator.RandomEventGenerator;
-import ru.sbt.mipt.oop.homeElement.light.LightEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.scenarioexecutor.HallDoorEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.DoorEventEventHandler;
+import ru.sbt.mipt.oop.eventgenerator.EventGenerator;
+import ru.sbt.mipt.oop.eventgenerator.RandomEventGenerator;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
-import ru.sbt.mipt.oop.reader.JsonSmartHomeReader;
-import ru.sbt.mipt.oop.reader.SmartHomeReader;
-import ru.sbt.mipt.oop.sensor.SensorEvent;
+import ru.sbt.mipt.oop.homereaderwriter.JsonSmartHomeReader;
+import ru.sbt.mipt.oop.homereaderwriter.SmartHomeReader;
 
 import java.io.IOException;
 
@@ -23,16 +22,23 @@ import java.util.Collection;
 public class Application {
     public static void main(String... args) throws IOException {
         Collection<EventHandler> eventHandlers = new ArrayList<EventHandler>();
-        fillHandlersList(eventHandlers);
         SmartHome smartHome = readSmartHomeState();
+        fillHandlersList(smartHome, eventHandlers);
         EventGenerator eventGenerator = new RandomEventGenerator();
-        executeEventLoop(smartHome, eventGenerator, eventHandlers);
+        executeEventLoop(eventGenerator, eventHandlers);
     }
 
-    private static void fillHandlersList(Collection<EventHandler> eventHandlers) {
-        eventHandlers.add(new SecurityHandlerDecorator(new DoorEventEventHandler(new ConsoleNotifier())));
-        eventHandlers.add(new SecurityHandlerDecorator(new LightEventEventHandler(new ConsoleNotifier())));
-        eventHandlers.add(new SecurityHandlerDecorator(new HallDoorEventEventHandler(new ConsoleCommandSender())));
+    private static void fillHandlersList(SmartHome smartHome, Collection<EventHandler> eventHandlers) {
+        eventHandlers.add(new SecurityHandlerDecorator(
+                new DoorEventEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
+        );
+        eventHandlers.add(new SecurityHandlerDecorator(
+                new LightEventEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
+        );
+        eventHandlers.add(new SecurityHandlerDecorator(
+                new HallDoorEventEventHandler(smartHome, new ConsoleCommandSender()), smartHome.getAlarm())
+        );
+        eventHandlers.add(new AlarmEventHandler(smartHome.getAlarm(), new ConsoleNotifier()));
     }
 
     public static SmartHome readSmartHomeState() throws IOException {
@@ -40,15 +46,14 @@ public class Application {
         return smartHomeReader.readSmartHomeState();
     }
 
-    private static void executeEventLoop(SmartHome smartHome,
-                                         EventGenerator eventGenerator,
+    private static void executeEventLoop(EventGenerator eventGenerator,
                                          Collection<EventHandler> eventHandlers) {
         // начинаем цикл обработки событий
         Event event = eventGenerator.getNextSensorEvent();
         while (event != null) {
-            System.out.println("[INFO] Got Event: " + event);
+            System.out.println("[INFO] Got event: " + event);
             for (EventHandler eventHandler : eventHandlers) {
-                eventHandler.processEvent(smartHome, event);
+                eventHandler.processEvent(event);
             }
             event = eventGenerator.getNextSensorEvent();
         }

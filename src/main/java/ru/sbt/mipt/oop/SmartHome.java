@@ -1,10 +1,9 @@
 package ru.sbt.mipt.oop;
 
 
-import ru.sbt.mipt.oop.Alarm.Alarm;
-import ru.sbt.mipt.oop.homeElement.HomeElement;
-import ru.sbt.mipt.oop.homeElement.Room;
-import ru.sbt.mipt.oop.homeElement.door.Door;
+import ru.sbt.mipt.oop.alarm.Alarm;
+import ru.sbt.mipt.oop.homeelement.HomeElement;
+import ru.sbt.mipt.oop.homeelement.Room;
 
 import java.util.ArrayList;
 import java.util.Collection;
