@@ -1,6 +1,9 @@
-package ru.sbt.mipt.oop.light;
+package ru.sbt.mipt.oop.homeElement.light;
 
-public class Light {
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.homeElement.HomeElement;
+
+public class Light implements HomeElement {
     private boolean isOn;
     private final String id;
 
@@ -19,5 +22,10 @@ public class Light {
 
     public void setOn(boolean on) {
         isOn = on;
+    }
+
+    @Override
+    public void execute(Action action) {
+        action.execute(this);
     }
 }

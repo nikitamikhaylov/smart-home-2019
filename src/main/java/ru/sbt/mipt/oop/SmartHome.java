@@ -1,9 +1,14 @@
 package ru.sbt.mipt.oop;
 
+
+import ru.sbt.mipt.oop.homeElement.HomeElement;
+import ru.sbt.mipt.oop.homeElement.Room;
+import ru.sbt.mipt.oop.homeElement.door.Door;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SmartHome {
+public class SmartHome implements HomeElement {
     private final Collection<Room> rooms;
 
     public SmartHome() {
@@ -20,5 +25,10 @@ public class SmartHome {
 
     public Collection<Room> getRooms() {
         return rooms;
+    }
+
+    public void execute(Action action) {
+        action.execute(this);
+        rooms.forEach(c -> c.execute(action));
     }
 }

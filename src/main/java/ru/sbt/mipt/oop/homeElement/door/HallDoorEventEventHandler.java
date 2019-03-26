@@ -1,11 +1,14 @@
-package ru.sbt.mipt.oop.door;
+package ru.sbt.mipt.oop.homeElement.door;
 
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.command.CommandSender;
 import ru.sbt.mipt.oop.command.CommandType;
-import ru.sbt.mipt.oop.light.Light;
+import ru.sbt.mipt.oop.homeElement.Room;
+import ru.sbt.mipt.oop.homeElement.light.Light;
+import ru.sbt.mipt.oop.sensor.SensorCommand;
+import ru.sbt.mipt.oop.sensor.SensorEvent;
 
-import static ru.sbt.mipt.oop.SensorEventType.DOOR_CLOSED;
+import static ru.sbt.mipt.oop.sensor.SensorEventType.DOOR_CLOSED;
 
 public class HallDoorEventEventHandler implements EventHandler {
     private final CommandSender commandSender;
@@ -30,21 +33,31 @@ public class HallDoorEventEventHandler implements EventHandler {
         if (!checkEventType(event)) {
             return;
         }
-        // событие от двери
-        for (Room room : smartHome.getRooms()) {
-            for (Door door : room.getDoors()) {
-                if (door.getId().equals(event.getObjectId())) {
-                    // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
-                    // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
-                    if (room.getName().equals("hall")) {
-                        for (Light light : room.getLights()) {
+
+        smartHome.execute(object -> {
+            if (object instanceof Room) {
+                Room room = (Room) object;
+                if (room.getName().equals("hall")) {
+                    boolean hasHallDoor = false;
+                    for (Door door: room.getDoors()) {
+                        if (door.getId().equals(event.getObjectId())) {
+                            hasHallDoor = true;
+                        }
+                    }
+                    if (!hasHallDoor) {
+                        return;
+                    }
+
+                    for (Room roomIter: smartHome.getRooms()) {
+                        for (Light light: roomIter.getLights()) {
                             light.setOn(false);
                             SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
                             commandSender.sendCommand(command);
                         }
                     }
+
                 }
             }
-        }
+        });
     }
 }

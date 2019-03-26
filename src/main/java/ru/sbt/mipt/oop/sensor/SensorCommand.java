@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.sensor;
 
 import ru.sbt.mipt.oop.command.CommandType;
 

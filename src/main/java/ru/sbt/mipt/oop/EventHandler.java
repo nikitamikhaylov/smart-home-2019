@@ -1,5 +1,8 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.sensor.SensorEvent;
+import ru.sbt.mipt.oop.sensor.SensorEventType;
+
 import java.util.ArrayList;
 
 public interface EventHandler {
