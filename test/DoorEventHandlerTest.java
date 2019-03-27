@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.homeelement.Door;
-import ru.sbt.mipt.oop.homeelement.updatehomemodel.DoorEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.DoorEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.homereaderwriter.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.homereaderwriter.SmartHomeReader;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DoorEventEventHandlerTest {
+class DoorEventHandlerTest {
 
     private SmartHome readSmartHomeFromJSON() throws IOException {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
@@ -23,7 +23,7 @@ class DoorEventEventHandlerTest {
     public void testDoorClosedProcessEvent() throws IOException {
         SmartHome smartHome = readSmartHomeFromJSON();
 
-        DoorEventEventHandler handler = new DoorEventEventHandler(smartHome, new ConsoleNotifier());
+        DoorEventHandler handler = new DoorEventHandler(smartHome, new ConsoleNotifier());
         handler.processEvent(new SensorEvent(SensorEventType.DOOR_CLOSED, "1"));
 
         smartHome.execute(c -> {
@@ -40,7 +40,7 @@ class DoorEventEventHandlerTest {
     public void testDoorOpenedProcessEvent() throws IOException {
         SmartHome smartHome = readSmartHomeFromJSON();
 
-        DoorEventEventHandler handler = new DoorEventEventHandler(smartHome, new ConsoleNotifier());
+        DoorEventHandler handler = new DoorEventHandler(smartHome, new ConsoleNotifier());
         handler.processEvent(new SensorEvent(SensorEventType.DOOR_OPEN, "2"));
 
         smartHome.execute(c -> {

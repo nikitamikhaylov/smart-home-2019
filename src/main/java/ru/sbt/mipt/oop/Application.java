@@ -6,10 +6,10 @@ import ru.sbt.mipt.oop.event.Event;
 import ru.sbt.mipt.oop.event.EventHandler;
 import ru.sbt.mipt.oop.command.ConsoleCommandSender;
 import ru.sbt.mipt.oop.homeelement.scenarioexecutor.HallDoorEventEventHandler;
-import ru.sbt.mipt.oop.homeelement.updatehomemodel.DoorEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.DoorEventHandler;
 import ru.sbt.mipt.oop.eventgenerator.EventGenerator;
 import ru.sbt.mipt.oop.eventgenerator.RandomEventGenerator;
-import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.homereaderwriter.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.homereaderwriter.SmartHomeReader;
@@ -30,10 +30,10 @@ public class Application {
 
     private static void fillHandlersList(SmartHome smartHome, Collection<EventHandler> eventHandlers) {
         eventHandlers.add(new SecurityHandlerDecorator(
-                new DoorEventEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
+                new DoorEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
         );
         eventHandlers.add(new SecurityHandlerDecorator(
-                new LightEventEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
+                new LightEventHandler(smartHome, new ConsoleNotifier()), smartHome.getAlarm())
         );
         eventHandlers.add(new SecurityHandlerDecorator(
                 new HallDoorEventEventHandler(smartHome, new ConsoleCommandSender()), smartHome.getAlarm())

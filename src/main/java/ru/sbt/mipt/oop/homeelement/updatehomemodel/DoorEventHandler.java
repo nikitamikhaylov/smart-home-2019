@@ -14,7 +14,7 @@ import java.util.List;
 import static ru.sbt.mipt.oop.sensor.SensorEventType.DOOR_CLOSED;
 import static ru.sbt.mipt.oop.sensor.SensorEventType.DOOR_OPEN;
 
-public class DoorEventEventHandler implements EventHandler {
+public class DoorEventHandler implements EventHandler {
 
     private final Notifier notifier;
     private final SmartHome smartHome;
@@ -28,7 +28,7 @@ public class DoorEventEventHandler implements EventHandler {
         return !eventsTypes.contains(event.getType());
     }
 
-    public DoorEventEventHandler(SmartHome smartHome, Notifier notifier) {
+    public DoorEventHandler(SmartHome smartHome, Notifier notifier) {
         this.notifier = notifier;
         this.smartHome = smartHome;
     }

@@ -4,7 +4,7 @@ import ru.sbt.mipt.oop.command.ConsoleCommandSender;
 import ru.sbt.mipt.oop.homeelement.Door;
 import ru.sbt.mipt.oop.homeelement.scenarioexecutor.HallDoorEventEventHandler;
 import ru.sbt.mipt.oop.homeelement.Light;
-import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.homereaderwriter.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.homereaderwriter.SmartHomeReader;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HallDoorEventEventHandlerTest {
+class HallDoorEventHandlerTest {
 
     private SmartHome readSmartHomeFromJSON() throws IOException {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
@@ -26,7 +26,7 @@ class HallDoorEventEventHandlerTest {
     public void testHallDoorClosedProcessEvent() throws IOException {
         SmartHome smartHome = readSmartHomeFromJSON();
 
-        LightEventEventHandler lightHandler = new LightEventEventHandler(smartHome, new ConsoleNotifier());
+        LightEventHandler lightHandler = new LightEventHandler(smartHome, new ConsoleNotifier());
         lightHandler.processEvent(new SensorEvent(SensorEventType.LIGHT_ON, "7"));
         lightHandler.processEvent(new SensorEvent(SensorEventType.LIGHT_ON, "8"));
         lightHandler.processEvent(new SensorEvent(SensorEventType.LIGHT_ON, "9"));

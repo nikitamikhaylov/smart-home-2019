@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.homeelement.Light;
-import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventEventHandler;
+import ru.sbt.mipt.oop.homeelement.updatehomemodel.LightEventHandler;
 import ru.sbt.mipt.oop.notifications.ConsoleNotifier;
 import ru.sbt.mipt.oop.homereaderwriter.JsonSmartHomeReader;
 import ru.sbt.mipt.oop.homereaderwriter.SmartHomeReader;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class LightEventEventHandlerTest {
+class LightEventHandlerTest {
     private SmartHome readSmartHomeFromJSON() throws IOException {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
         return smartHomeReader.readSmartHomeState();
@@ -23,7 +23,7 @@ class LightEventEventHandlerTest {
     public void testLightOnProcessEvent() throws IOException {
         SmartHome smartHome = readSmartHomeFromJSON();
 
-        LightEventEventHandler handler = new LightEventEventHandler(smartHome, new ConsoleNotifier());
+        LightEventHandler handler = new LightEventHandler(smartHome, new ConsoleNotifier());
         handler.processEvent(new SensorEvent(SensorEventType.LIGHT_ON, "7"));
 
         smartHome.execute(c -> {
@@ -40,7 +40,7 @@ class LightEventEventHandlerTest {
     public void testLightOffProcessEvent() throws IOException {
         SmartHome smartHome = readSmartHomeFromJSON();
 
-        LightEventEventHandler handler = new LightEventEventHandler(smartHome, new ConsoleNotifier());
+        LightEventHandler handler = new LightEventHandler(smartHome, new ConsoleNotifier());
         handler.processEvent(new SensorEvent(SensorEventType.LIGHT_OFF, "2"));
 
         smartHome.execute(c -> {

@@ -14,12 +14,12 @@ import java.util.List;
 import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.sensor.SensorEventType.LIGHT_ON;
 
-public class LightEventEventHandler implements EventHandler {
+public class LightEventHandler implements EventHandler {
     private final Notifier notifier;
     private final SmartHome smartHome;
     private final List<SensorEventType> eventsTypes = Arrays.asList(LIGHT_ON, LIGHT_OFF);
 
-    public LightEventEventHandler( SmartHome smartHome, Notifier notifier) {
+    public LightEventHandler(SmartHome smartHome, Notifier notifier) {
         this.notifier = notifier;
         this.smartHome = smartHome;
     }
