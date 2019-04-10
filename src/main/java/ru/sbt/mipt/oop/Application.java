@@ -41,6 +41,8 @@ public class Application {
         eventHandlers.add(new AlarmEventHandler(smartHome.getAlarm(), new ConsoleNotifier()));
     }
 
+
+
     public static SmartHome readSmartHomeState() throws IOException {
         SmartHomeReader smartHomeReader = new JsonSmartHomeReader("smart-home-1.json");
         return smartHomeReader.readSmartHomeState();
