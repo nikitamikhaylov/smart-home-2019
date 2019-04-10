@@ -4,10 +4,10 @@ import com.coolcompany.smarthome.events.CCSensorEvent;
 import ru.sbt.mipt.oop.sensor.SensorEvent;
 import ru.sbt.mipt.oop.sensor.SensorEventType;
 
-public class CCSensorEventToNativeSensorEventAdapter extends SensorEvent {
+public class CCSensorEventToNativeSensorEventAdapter{
 
-    public CCSensorEventToNativeSensorEventAdapter(CCSensorEvent ccSensorEvent) {
-        super(convertType(ccSensorEvent), ccSensorEvent.getObjectId());
+    public static SensorEvent adapt(CCSensorEvent ccSensorEvent) {
+        return new SensorEvent(convertType(ccSensorEvent), ccSensorEvent.getObjectId());
     }
 
     private static SensorEventType convertType(CCSensorEvent ccSensorEvent) {

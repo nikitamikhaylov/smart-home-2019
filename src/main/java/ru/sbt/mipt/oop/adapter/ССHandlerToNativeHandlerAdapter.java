@@ -15,7 +15,7 @@ public class ССHandlerToNativeHandlerAdapter implements EventHandler {
     @Override
     public void handleEvent(CCSensorEvent event) {
         try {
-            eventHandler.processEvent(new CCSensorEventToNativeSensorEventAdapter(event));
+            eventHandler.processEvent(CCSensorEventToNativeSensorEventAdapter.adapt(event));
         } catch (RuntimeException exception) {
             System.out.println(event.getEventType() + " is not supported");
         }
